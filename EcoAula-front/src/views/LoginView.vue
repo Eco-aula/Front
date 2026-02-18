@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-background-light dark:bg-background-dark min-h-screen flex flex-col font-display">
+  <div class="bg-background-light dark:bg-background-dark min-h-screen w-full flex flex-col font-display">
     <LoginHeader />
     
     <!-- Main Content Container -->

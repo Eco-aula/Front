@@ -7,7 +7,7 @@ const route = useRoute();
 </script>
 
 <template>
-  <template v-if="route.path !== '/login'">
+  <template v-if="route.path !== '/'">
     <Sidebar />
 
     <main class="main-content">

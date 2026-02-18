@@ -5,7 +5,7 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/',
+      path: '/dashboard',
       name: 'home',
       component: HomeView
     },
@@ -25,7 +25,7 @@ const router = createRouter({
       component: () => import('../views/AlertasView.vue')
     },
     {
-      path: '/login',
+      path: '/',
       name: 'login',
       component: () => import('../views/LoginView.vue')
     }

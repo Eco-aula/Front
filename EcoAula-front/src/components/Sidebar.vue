@@ -33,9 +33,9 @@ const route = useRoute();
 
     <nav class="nav-menu">
       <RouterLink
-        to="/"
+        to="/dashboard"
         class="nav-item"
-        :class="{ active: route.path === '/' }"
+        :class="{ active: route.path === '/dashboard' }"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

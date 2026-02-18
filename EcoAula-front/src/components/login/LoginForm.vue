@@ -14,10 +14,10 @@
       <!-- User Field -->
       <LoginField
         id="username"
-        label="Usuario"
+        label="Correo Electrónico"
         icon="person"
-        placeholder="Ingrese su usuario"
-        v-model="formData.username"
+        placeholder="Ingrese su correo electrónico"
+        v-model="formData.email"
       />
 
       <!-- Password Field -->
@@ -34,29 +34,6 @@
         </template>
       </LoginField>
 
-      <!-- Role Selection -->
-      <div class="space-y-3 pt-2">
-        <p class="text-sm font-semibold text-gray-700 dark:text-gray-300">Seleccionar Rol</p>
-        <div class="grid grid-cols-2 gap-4">
-          <RoleCard
-            value="operativo"
-            icon="engineering"
-            title="Operativo"
-            description="Gestión diaria de residuos"
-            :checked="formData.role === 'operativo'"
-            @change="updateRole"
-          />
-          <RoleCard
-            value="direccion"
-            icon="monitoring"
-            title="Dirección"
-            description="Análisis y supervisión"
-            :checked="formData.role === 'direccion'"
-            @change="updateRole"
-          />
-        </div>
-      </div>
-
       <!-- Action Button -->
       <button
         type="submit"
@@ -72,17 +49,11 @@
 <script setup lang="ts">
 import { reactive } from 'vue';
 import LoginField from './LoginField.vue';
-import RoleCard from './RoleCard.vue';
 
 const formData = reactive({
-  username: '',
+  email: '',
   password: '',
-  role: 'operativo'
 });
-
-const updateRole = (role: string) => {
-  formData.role = role;
-};
 
 const handleSubmit = () => {
   console.log('Form submitted:', formData);
