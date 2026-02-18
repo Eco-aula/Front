@@ -8,6 +8,37 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+      tailwind.config = {
+          darkMode: "class",
+          theme: {
+              extend: {
+                  colors: {
+                      "primary": "#1a355b",
+                      "background-light": "#f8fafc",
+                      "background-dark": "#13181f",
+                  },
+                  fontFamily: {
+                      "display": ["Inter", "sans-serif"]
+                  },
+                  borderRadius: {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+                  },
+              },
+          },
+      }
+    </script>
+    <style>
+      .role-card:has(input:checked) {
+          border-color: #1a355b;
+          background-color: rgba(26, 53, 91, 0.05);
+      }
+    </style>
   </head>
   <body>
     <div id="app"></div>
