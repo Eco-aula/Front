@@ -24,11 +24,7 @@ const router = createRouter({
       name: 'alertas',
       component: () => import('../views/AlertasView.vue')
     },
-    {
-      path: '/about',
-      name: 'about',
-      component: () => import('../views/AboutView.vue')
-    }
+
   ]
 })
 
