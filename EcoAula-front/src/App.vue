@@ -10,6 +10,7 @@ import Header from "./components/Header.vue";
   <main class="main-content">
     <Header />
     <RouterView />
+    <Footer />
   </main>
 </template>
 
