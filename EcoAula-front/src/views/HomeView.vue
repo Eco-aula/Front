@@ -74,3 +74,62 @@ const { stats, topCategory, alerts, chartData, history } = useDashboard()
     </div>
   </div>
 </template>
+
+<style scoped>
+.dashboard-view {
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 24px;
+}
+
+.dashboard-title h2 {
+  font-size: 28px;
+  font-weight: 800;
+  margin: 0 0 8px 0;
+}
+
+.dashboard-title p {
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.status-badge {
+  text-align: right;
+}
+
+.badge {
+  color: var(--accent-green);
+  font-weight: 700;
+  font-size: 12px;
+  background: rgba(16, 185, 129, 0.1);
+  padding: 4px 12px;
+  border-radius: 20px;
+  display: inline-block;
+  margin-bottom: 6px;
+}
+
+.update-time {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.grid-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.bottom-row {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 24px;
+}
+</style>
