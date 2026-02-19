@@ -7,7 +7,23 @@ export default mergeConfig(
   defineConfig({
     test: {
       environment: 'jsdom',
-      exclude: [...configDefaults.exclude, 'e2e/**'],
+      globals: true,
+      setupFiles: ['./src/setupTests.ts'],
+      exclude: [...configDefaults.exclude, 'e2e/**', 'playwright/**'],
+      coverage: {
+        provider: 'v8',
+        reporter: ['text', 'html'],
+        reportsDirectory: './coverage',
+        all: true,
+        include: ['src/**/*.{ts,vue}'],
+        exclude: ['src/**/__tests__/**'],
+        thresholds: {
+          statements: 75,
+          branches: 75,
+          functions: 75,
+          lines: 75,
+        },
+      },
       root: fileURLToPath(new URL('./', import.meta.url)),
     },
   }),
