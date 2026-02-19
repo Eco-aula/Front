@@ -30,3 +30,20 @@ defineProps<{
 
 defineEmits(['update:modelValue']);
 </script>
+
+<style scoped>
+.type-card input:checked + div {
+  border-color: #1a365d;
+  background-color: rgba(26, 54, 93, 0.05);
+  box-shadow: 0 0 0 1px #1a365d;
+}
+
+.type-card input:checked + div .icon-box {
+  background-color: #1a365d;
+  color: white;
+}
+
+.type-card input:checked + div .check-indicator {
+  display: block;
+}
+</style>

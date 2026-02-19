@@ -25,3 +25,10 @@ defineProps<{
 
 defineEmits(['change']);
 </script>
+
+<style scoped>
+.role-card:has(input:checked) {
+  border-color: #1a355b;
+  background-color: rgba(26, 53, 91, 0.05);
+}
+</style>
