@@ -1,8 +1,13 @@
+# Frontend Testing
+
 🧪 DOCUMENTACIÓN TÉCNICA – PRUEBAS FRONTEND
+
 🚀 Estado Final
+
 🧭 1️⃣ Rama de trabajo
 
 Rama utilizada:
+
 test/frontend-max-coverage
 
 🎯 Objetivo
@@ -24,6 +29,7 @@ Garantizar cumplimiento del requisito ≥ 75%.
 Una vez verificado que todo ejecutaba correctamente, los cambios fueron integrados en dev.
 
 🛠 2️⃣ Stack de testing utilizado
+
 🔬 Unit & Integration
 
 Vitest → Unit testing
@@ -41,6 +47,7 @@ Playwright / Cypress
 Ejecución sobre entorno real
 
 🧠 3️⃣ Estrategia de pruebas
+
 🧩 Unit Tests
 
 Cobertura aplicada sobre:
@@ -107,7 +114,7 @@ Comando utilizado:
 
 npm run test:coverage
 
-### 📸 Reporte visual de cobertura
+## 📸 Reporte visual de cobertura
 
 ![Reporte de cobertura Frontend](assets/frontend-coverage.png)
 
@@ -122,6 +129,7 @@ Functions: 92.21%
 Lines: 96.11%
 
 ✔ Supera ampliamente el requisito mínimo (75%)
+
 ✔ Cobertura estable y reproducible
 
 🧱 5️⃣ Buenas prácticas aplicadas
@@ -144,11 +152,12 @@ Cobertura real (no artificial).
 
 Se validó ejecución en entorno limpio:
 
+```bash
 npm ci
 npm run test
 npm run test:coverage
 npm run e2e
-
+```
 
 → Ejecutan sin errores.
 → Cobertura consistente.
