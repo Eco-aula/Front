@@ -1,10 +1,28 @@
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+
+// Mapeo simple de rutas a nombres para las migas de pan
+const breadcrumbName = computed(() => {
+  switch (route.name) {
+    case 'home': return 'Vista General'
+    case 'registrar': return 'Registrar Residuo'
+    case 'listado': return 'Listado Operativo'
+    case 'alertas': return 'Gestión de Alertas'
+    default: return 'Panel Administrativo'
+  }
+})
+</script>
+
 <template>
   <header class="header">
     <div class="breadcrumbs">
-      Dashboard / <span>Vista General Mensual</span>
+      Dashboard / <span>{{ breadcrumbName }}</span>
     </div>
     <div class="header-actions">
-      <button class="icon-btn">
+      <button class="icon-btn" title="Buscar">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="20"
@@ -20,7 +38,7 @@
           <path d="m21 21-4.3-4.3" />
         </svg>
       </button>
-      <button class="icon-btn">
+      <button class="icon-btn" title="Ajustes">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="20"
@@ -38,24 +56,50 @@
           <circle cx="12" cy="12" r="3" />
         </svg>
       </button>
-      <button class="export-btn">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="18"
-          height="18"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-          <polyline points="7 10 12 15 17 10" />
-          <line x1="12" x2="12" y1="3" y2="15" />
+      <button class="icon-btn" title="Notificaciones">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
         </svg>
-        Exportar Informe
       </button>
     </div>
   </header>
 </template>
+
+<style scoped>
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.breadcrumbs {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.breadcrumbs span {
+  color: var(--text-main);
+  font-weight: 500;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+
+.icon-btn:hover {
+  background: #e2e8f0;
+}
+</style>

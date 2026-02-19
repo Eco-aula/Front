@@ -19,5 +19,28 @@ const route = useRoute();
 </template>
 
 <style>
-/* Los estilos se encuentran globalmente en assets/main.css */
+#app {
+  display: flex;
+  min-height: 100vh;
+}
+
+.main-content {
+  margin-left: 260px;
+  flex: 1;
+  padding: 32px;
+  max-width: 2000px; /* Un poco más de aire en pantallas ultra-wide */
+  min-height: 100vh;
+  background-color: var(--primary-bg);
+}
+
+/* Transiciones suaves entre páginas */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
 </style>

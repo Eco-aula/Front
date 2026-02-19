@@ -50,4 +50,45 @@ defineProps<{
   padding: 2px 6px;
   border-radius: 10px;
 }
+
+.alerts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.alert-item {
+  padding: 12px 16px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.alert-item.danger {
+  background: #fef2f2;
+}
+
+.alert-item.warning {
+  background: #fffbeb;
+}
+
+.alert-content h5 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.alert-content p {
+  margin: 0;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.alert-icon.danger {
+  color: var(--accent-red);
+}
+.alert-icon.warning {
+  color: var(--accent-orange);
+}
 </style>

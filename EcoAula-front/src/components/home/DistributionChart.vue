@@ -57,4 +57,82 @@ defineProps<{
   border: 1px solid #e2e8f0;
   color: #64748b;
 }
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.card-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.chart-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 20px 0;
+}
+
+.donut-placeholder {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  /* El borde se maneja ahora via SVG o via CSS if necessary */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.donut-center {
+  text-align: center;
+}
+
+.donut-center .big-num {
+  font-size: 24px;
+  font-weight: 800;
+  display: block;
+}
+
+.donut-center .total-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.chart-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.legend-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 40px;
+  font-size: 13px;
+}
+
+.legend-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-muted);
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+.legend-value {
+  font-weight: 700;
+}
 </style>

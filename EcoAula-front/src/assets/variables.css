@@ -1,0 +1,14 @@
+:root {
+  --primary-bg: #f8fafc;
+  --sidebar-bg: #ffffff;
+  --card-bg: #ffffff;
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  --accent-navy: #1e293b;
+  --accent-green: #10b981;
+  --accent-orange: #f59e0b;
+  --accent-red: #ef4444;
+  --border-color: #e2e8f0;
+  --highlight-blue: #3b82f6;
+  --transition-speed: 0.3s;
+}
