@@ -12,7 +12,7 @@ export default mergeConfig(
       exclude: [...configDefaults.exclude, 'e2e/**', 'playwright/**'],
       coverage: {
         provider: 'v8',
-        reporter: ['text', 'html'],
+        reporter: ['text', 'html', 'json-summary'],
         reportsDirectory: './coverage',
         all: true,
         include: ['src/**/*.{ts,vue}'],

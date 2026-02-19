@@ -1,5 +1,8 @@
 # EcoAula-front
 
+[![Frontend CI](https://github.com/Eco-aula/Front/actions/workflows/frontend-ci.yml/badge.svg)](https://github.com/Eco-aula/Front/actions/workflows/frontend-ci.yml)
+[![Coverage](https://img.shields.io/endpoint?url=https%3A%2F%2Feco-aula.github.io%2FFront%2Fbadges%2Fcoverage.json)](https://eco-aula.github.io/Front/badges/coverage.json)
+
 This template should help get you started developing with Vue 3 in Vite.
 
 ## Recommended IDE Setup
@@ -82,3 +85,19 @@ Ejecucion:
 ```sh
 npm run e2e
 ```
+
+### Badges (CI + Coverage)
+
+- El badge de CI se actualiza con el workflow `frontend-ci.yml` en cada push/pull request a `dev` y `main`.
+- El badge de cobertura usa la metrica `lines` de `coverage/coverage-summary.json`.
+- El JSON publicado para Shields se genera en `docs/badges/coverage.json` y se publica en GitHub Pages en cada push a `dev`.
+
+Regeneracion local del badge de cobertura:
+
+```sh
+npm run test:coverage
+npm run coverage:badge
+```
+
+JSON local generado: `docs/badges/coverage.json`  
+JSON publico (Pages): `https://eco-aula.github.io/Front/badges/coverage.json`

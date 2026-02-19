@@ -10,6 +10,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
+    "coverage:badge": "node scripts/generate-coverage-badge.mjs",
     "test:unit": "vitest run",
     "e2e": "playwright test",
     "build-only": "vite build",
