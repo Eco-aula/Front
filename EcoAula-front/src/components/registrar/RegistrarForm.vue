@@ -4,6 +4,21 @@
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
       <div class="space-y-6">
+        <!-- Nombre -->
+        <div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 p-8">
+          <div class="flex items-center gap-2 mb-6">
+            <span class="material-symbols-outlined text-primary">badge</span>
+            <h3 class="font-bold text-slate-900 dark:text-white">Nombre</h3>
+          </div>
+          <div class="relative">
+            <input 
+              v-model="formData.name"
+              class="block w-full rounded-lg border-slate-300 dark:border-slate-700 dark:bg-slate-800 focus:ring-primary focus:border-primary text-sm p-4 px-5" 
+              placeholder="Nombre de quien registra" 
+              type="text"
+            />
+          </div>
+        </div>
         
         <!-- Cantidad -->
         <div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 p-8">
@@ -26,7 +41,7 @@
 
       </div>
 
-      <RegistrationCalendar />
+      <RegistrationCalendar v-model="formData.date" />
     </div>
 
     <!-- Observaciones -->
@@ -64,9 +79,10 @@ import WasteTypeSelector from './WasteTypeSelector.vue';
 import RegistrationCalendar from './RegistrationCalendar.vue';
 
 const formData = reactive({
+  name: '',
   wasteType: 'papel',
   quantity: '',
-  status: 'pendiente',
+  date: new Date(),
   observations: ''
 });
 
