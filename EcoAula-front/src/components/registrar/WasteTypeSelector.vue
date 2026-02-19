@@ -31,6 +31,15 @@ watch(selectedType, (newVal) => {
   emit('update:modelValue', newVal);
 });
 
+watch(
+  () => props.modelValue,
+  (newVal) => {
+    if (newVal !== selectedType.value) {
+      selectedType.value = newVal;
+    }
+  }
+);
+
 const wasteTypes = [
   { value: 'papel', label: 'Papel', icon: 'description' },
   { value: 'plastico', label: 'Plástico', icon: 'liquor' },
