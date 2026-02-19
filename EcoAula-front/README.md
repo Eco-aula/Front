@@ -46,3 +46,39 @@ npm run build
 ```sh
 npm run test:unit
 ```
+
+## Testing
+
+### Unit + Integration (Vitest + Testing Library + MSW)
+
+```sh
+npm run test
+```
+
+Modo watch:
+
+```sh
+npm run test:watch
+```
+
+Con cobertura (texto + HTML):
+
+```sh
+npm run test:coverage
+```
+
+Reporte HTML de cobertura: `coverage/index.html`
+
+### End-to-End (Playwright)
+
+Instalacion inicial de navegador (una sola vez):
+
+```sh
+npx playwright install chromium
+```
+
+Ejecucion:
+
+```sh
+npm run e2e
+```
