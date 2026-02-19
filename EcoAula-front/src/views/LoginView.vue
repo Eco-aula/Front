@@ -4,7 +4,8 @@
     
     <!-- Main Content Container -->
     <main class="flex-grow flex items-center justify-center p-6">
-      <LoginForm />
+      <LoginForm v-if="isLogin" @switch-to-register="isLogin = false" />
+      <RegisterForm v-else @switch-to-login="isLogin = true" />
     </main>
 
     <LoginFooter />
@@ -12,9 +13,13 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue';
 import LoginHeader from '@/components/login/LoginHeader.vue';
 import LoginFooter from '@/components/login/LoginFooter.vue';
 import LoginForm from '@/components/login/LoginForm.vue';
+import RegisterForm from '@/components/login/RegisterForm.vue';
+
+const isLogin = ref(true);
 </script>
 
 <style scoped>
