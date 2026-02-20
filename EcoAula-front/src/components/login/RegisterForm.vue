@@ -139,7 +139,7 @@ async function handleSubmit() {
 
     successMessage.value = 'Registro exitoso.'
     localStorage.setItem('ecoaula_current_user', JSON.stringify(response.user))
-    await router?.push('/dashboard')
+    void router?.push('/dashboard')
   } catch (caughtError) {
     if (caughtError instanceof ApiError) {
       if (caughtError.status === 500) {

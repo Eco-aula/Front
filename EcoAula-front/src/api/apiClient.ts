@@ -16,6 +16,7 @@ const API_V1_PATH = '/api/v1'
 const LOCAL_DEV_API_ORIGIN = 'http://localhost:8080'
 const PRODUCTION_API_ORIGIN = 'https://ecoaula-backend.onrender.com'
 const LOCAL_HOSTNAMES = new Set(['localhost', '127.0.0.1'])
+const REQUEST_TIMEOUT_MS = 15000
 
 function normalizeBaseUrl(rawBaseUrl: string): string {
   const trimmed = rawBaseUrl.replace(/\/$/, '')
@@ -85,14 +86,33 @@ function extractErrorMessage(payload: unknown, fallback: string): string {
 }
 
 async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
-  const response = await fetch(buildUrl(path), {
-    ...init,
-    headers: {
-      Accept: 'application/json',
-      ...(init.body ? { 'Content-Type': 'application/json' } : {}),
-      ...init.headers,
-    },
-  })
+  const controller = new AbortController()
+  const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS)
+
+  let response: Response
+  try {
+    response = await fetch(buildUrl(path), {
+      ...init,
+      signal: init.signal ?? controller.signal,
+      headers: {
+        Accept: 'application/json',
+        ...(init.body ? { 'Content-Type': 'application/json' } : {}),
+        ...init.headers,
+      },
+    })
+  } catch (caughtError) {
+    if (caughtError instanceof Error && caughtError.name === 'AbortError') {
+      throw new ApiError(
+        'El servidor tardo demasiado en responder. Intente nuevamente.',
+        408,
+        null,
+      )
+    }
+
+    throw caughtError
+  } finally {
+    clearTimeout(timeoutId)
+  }
 
   if (response.status === 204) {
     return undefined as T
