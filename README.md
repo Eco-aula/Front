@@ -15,7 +15,7 @@ Incluye autenticacion, panel operativo, registro de residuos, listado y gestion 
 - Acciones CI/CD: <https://github.com/Eco-aula/Front/actions>
 - GitHub Pages (docs): <https://eco-aula.github.io/Front/>
 - Coverage JSON publico: <https://eco-aula.github.io/Front/badges/coverage.json>
-- Documentacion de testing: `EcoAula-front/docs/frontend-testing.md`
+- Documentacion de testing: [EcoAula-front/docs/frontend-testing.md](EcoAula-front/docs/frontend-testing.md)
 
 ## Funcionalidades principales
 
@@ -126,8 +126,4 @@ Salidas:
 | --- | --- | --- | --- |
 | Frontend CI | `.github/workflows/frontend-ci.yml` | `push` y `pull_request` a `dev` y `main` | Unit, coverage, E2E y artifacts |
 | Publish Frontend Docs | `.github/workflows/pages.yml` | `push` a `dev` | Regenera coverage badge y publica `docs/` en Pages |
-
-## Nota importante sobre README y badges
-
-Para que el README y los badges se vean en GitHub, el archivo `README.md` debe estar en la raiz del repo y el commit debe estar empujado a la rama remota (`origin/main`).
 
