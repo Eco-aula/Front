@@ -64,6 +64,8 @@
 <script setup lang="ts">
 import { reactive } from 'vue';
 import LoginField from './LoginField.vue';
+import { useRouter } from 'vue-router';
+import { registerUser } from '@/services/authService';
 
 const formData = reactive({
   name: '',
@@ -72,9 +74,19 @@ const formData = reactive({
 });
 
 const emit = defineEmits(['switch-to-login']);
+const router = useRouter();
 
-const handleSubmit = () => {
-  console.log('Registration submitted:', formData);
-  // Add registration logic here
+const handleSubmit = async () => {
+  try {
+    const newUser = await registerUser(formData.name, formData.email, formData.password);
+    
+    // Guardar sesión (opcional, dependiendo de si quieres que entre directo)
+    localStorage.setItem("user", JSON.stringify(newUser));
+
+    // Ir al dashboard
+    router.push("/dashboard");
+  } catch (error: any) {
+    alert(error.message);
+  }
 };
 </script>

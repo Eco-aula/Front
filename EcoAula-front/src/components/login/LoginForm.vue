@@ -10,7 +10,7 @@
     </div>
 
     <!-- Login Form -->
-    <form @submit.prevent="handleSubmit" class="px-10 pb-10 space-y-6">
+    <form @submit.prevent="login" class="px-10 pb-10 space-y-6">
       <!-- User Field -->
       <LoginField
         id="username"
@@ -59,6 +59,8 @@
 <script setup lang="ts">
 import { reactive } from 'vue';
 import LoginField from './LoginField.vue';
+import { useRouter } from "vue-router";
+import { loginUser, type User } from "@/services/authService";
 
 const formData = reactive({
   email: '',
@@ -67,8 +69,19 @@ const formData = reactive({
 
 defineEmits(['switch-to-register']);
 
-const handleSubmit = () => {
-  console.log('Form submitted:', formData);
-  // Add login logic here
+const router = useRouter();
+
+const login = async (): Promise<void> => {
+  try {
+    const user: User = await loginUser(formData.email, formData.password);
+
+    // Guardar sesión
+    localStorage.setItem("user", JSON.stringify(user));
+
+    // Ir al dashboard
+    router.push("/dashboard");
+  } catch (error: any) {
+    alert(error.message);
+  }
 };
 </script>
