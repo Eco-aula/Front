@@ -1,156 +1,115 @@
 # Frontend Testing
 
-🧪 DOCUMENTACIÓN TÉCNICA – PRUEBAS FRONTEND
+> Documentación técnica de la estrategia de pruebas del frontend de EcoAula.
 
-🚀 Estado Final
+## Resumen ejecutivo
 
-🧭 1️⃣ Rama de trabajo
+| Indicador | Resultado |
+| --- | --- |
+| Cobertura de statements | 96.20% |
+| Cobertura de branches | 94.66% |
+| Cobertura de functions | 92.21% |
+| Cobertura de lines | 96.11% |
+| Umbral mínimo requerido | 75% |
+| Estado final | Cumplido con margen alto |
 
-Rama utilizada:
+## 1. Rama de trabajo
 
-test/frontend-max-coverage
+- Rama utilizada: `test/frontend-max-coverage`.
+- Objetivo: aumentar cobertura y estabilidad sin bloquear el desarrollo funcional.
+- Integración: cambios incorporados a `dev` tras validar ejecución completa.
 
-🎯 Objetivo
+## 2. Objetivo de testing
 
-Maximizar cobertura y estabilidad del frontend sin afectar el desarrollo funcional del equipo.
+Maximizar cobertura y estabilidad del frontend con foco en:
 
-Se trabajó en rama aislada para:
+- incrementar cobertura global;
+- asegurar componentes críticos;
+- validar flujos reales de usuario;
+- integrar pruebas end-to-end;
+- garantizar cumplimiento de cobertura mínima (`>= 75%`).
 
-Incrementar cobertura global.
+## 3. Stack de pruebas
 
-Asegurar estabilidad de componentes críticos.
+| Área | Herramienta | Uso |
+| --- | --- | --- |
+| Unit testing | `Vitest` | Pruebas unitarias rápidas y deterministas |
+| Integration testing | `@testing-library/vue` | Pruebas orientadas a comportamiento del usuario |
+| Mocking API | `MSW` | Mocking controlado de red para escenarios de prueba |
+| Cobertura | `@vitest/coverage-v8` | Medición de cobertura por statements/branches/functions/lines |
+| E2E | `Playwright` | Validación de flujos críticos en entorno real |
 
-Validar flujos reales.
+## 4. Estrategia de pruebas
 
-Integrar pruebas E2E.
-
-Garantizar cumplimiento del requisito ≥ 75%.
-
-Una vez verificado que todo ejecutaba correctamente, los cambios fueron integrados en dev.
-
-🛠 2️⃣ Stack de testing utilizado
-
-🔬 Unit & Integration
-
-Vitest → Unit testing
-
-Testing Library → Testing basado en comportamiento real
-
-Mocking controlado de API
-
-Coverage con provider V8
-
-🌐 End-to-End
-
-Playwright / Cypress
-
-Ejecución sobre entorno real
-
-🧠 3️⃣ Estrategia de pruebas
-
-🧩 Unit Tests
+### 4.1 Pruebas unitarias
 
 Cobertura aplicada sobre:
 
-Componentes individuales
+- componentes individuales;
+- stores (estado y acciones);
+- utilidades;
+- router;
+- capa de API.
 
-Stores (estado y acciones)
+Casos validados:
 
-Utilidades
+- renderizado correcto;
+- props y eventos;
+- estados condicionales;
+- manejo de errores;
+- validaciones de formularios;
+- ramas condicionales (`if / else`).
 
-Router
+### 4.2 Pruebas de integración
 
-API layer
+Validación de interacción real entre módulos:
 
-Se validan:
+- navegación entre rutas;
+- interacción componente + store;
+- flujo completo de formularios;
+- estados asíncronos;
+- renderizado condicionado por datos.
 
-✔ Renderizado correcto
-
-✔ Props
-
-✔ Eventos
-
-✔ Estados condicionales
-
-✔ Manejo de errores
-
-✔ Validaciones de formularios
-
-✔ Ramas condicionales (if / else)
-
-🔁 Tests de integración
-
-Pruebas que validan interacción real entre módulos:
-
-Navegación entre rutas
-
-Interacción componente + store
-
-Flujo completo de formularios
-
-Estados asíncronos
-
-Renderizado condicionado por datos
-
-🌐 Tests End-to-End (E2E)
+### 4.3 Pruebas End-to-End (E2E)
 
 Flujos críticos cubiertos:
 
-Login
+- login;
+- registro;
+- creación de residuo;
+- visualización en listado;
+- navegación principal.
 
-Registro
+## 5. Cobertura
 
-Creación de residuo
+Comando principal:
 
-Visualización en listado
-
-Navegación principal
-
-Se ejecutan contra entorno real (sin mocks internos).
-
-📊 4️⃣ Medición de cobertura
-
-Comando utilizado:
-
+```bash
 npm run test:coverage
+```
 
-## 📸 Reporte visual de cobertura
+Reporte visual:
 
 ![Reporte de cobertura Frontend](assets/frontend-coverage.png)
 
-📈 Resultados finales
+Interpretación:
 
-Statements: 96.2%
+- la cobertura supera ampliamente el umbral mínimo requerido;
+- los resultados son estables y reproducibles en ejecuciones limpias.
 
-Branches: 94.66%
+## 6. Buenas prácticas aplicadas
 
-Functions: 92.21%
+- separación clara de responsabilidades;
+- mocking controlado de dependencias;
+- tests independientes y deterministas;
+- sin dependencia de backend real para unit/integration;
+- E2E aislado por flujos;
+- código de pruebas mantenible;
+- cobertura real, no artificial.
 
-Lines: 96.11%
+## 7. Garantía de estabilidad
 
-✔ Supera ampliamente el requisito mínimo (75%)
-
-✔ Cobertura estable y reproducible
-
-🧱 5️⃣ Buenas prácticas aplicadas
-
-Separación clara de responsabilidades.
-
-Mocking controlado de dependencias.
-
-Tests independientes y deterministas.
-
-No dependencia de backend real para unit tests.
-
-E2E aislado.
-
-Código limpio y mantenible.
-
-Cobertura real (no artificial).
-
-🛡 6️⃣ Garantía de estabilidad
-
-Se validó ejecución en entorno limpio:
+Validación en entorno limpio:
 
 ```bash
 npm ci
@@ -159,22 +118,20 @@ npm run test:coverage
 npm run e2e
 ```
 
-→ Ejecutan sin errores.
-→ Cobertura consistente.
-→ Flujos críticos funcionales.
+Resultado esperado:
 
-✅ Conclusión
+- ejecución sin errores;
+- cobertura consistente;
+- flujos críticos funcionales.
 
-El frontend cuenta con:
+## 8. Conclusión
 
-Pruebas unitarias
+El frontend dispone de:
 
-Pruebas de integración
+- pruebas unitarias;
+- pruebas de integración;
+- pruebas end-to-end;
+- cobertura superior al 90%;
+- ejecución reproducible.
 
-Pruebas end-to-end
-
-Cobertura superior al 90%
-
-Ejecución reproducible
-
-Esto garantiza estabilidad ante cambios futuros y minimiza riesgo de regresiones.
+Este enfoque reduce el riesgo de regresiones y mejora la seguridad de cambios futuros.
