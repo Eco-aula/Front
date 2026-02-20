@@ -85,6 +85,36 @@ describe('LoginForm', () => {
 
     expect(await screen.findByText('Usuario no encontrado')).toBeInTheDocument()
   })
+
+  it('logs in when user id is recovered from ecoaula_current_user and backend omits password', async () => {
+    const user = userEvent.setup()
+
+    localStorage.setItem(
+      'ecoaula_current_user',
+      JSON.stringify({ id: 2, name: 'Usuario QA', email: 'qa2@example.com' }),
+    )
+
+    server.use(
+      http.get(`${API_BASE}/users/2`, () => {
+        return HttpResponse.json(
+          {
+            id: 2,
+            name: 'Usuario QA',
+            email: 'qa2@example.com',
+          },
+          { status: 200 },
+        )
+      }),
+    )
+
+    render(LoginForm)
+    await user.type(screen.getByLabelText(/correo electronico/i), 'qa2@example.com')
+    await user.type(screen.getByLabelText(/contrasena/i), 'secret123')
+    await user.click(screen.getByRole('button', { name: /entrar/i }))
+
+    expect(await screen.findByText('Inicio de sesion exitoso.')).toBeInTheDocument()
+    expect(localStorage.getItem('ecoaula_current_user_id')).toBe('2')
+  })
 })
 
 describe('RegisterForm', () => {
