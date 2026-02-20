@@ -3,11 +3,26 @@ import { mergeConfig, defineConfig, configDefaults } from 'vitest/config'
 import viteConfig from './vite.config'
 
 export default mergeConfig(
-  viteConfig,
+  viteConfig as any,
   defineConfig({
     test: {
       environment: 'jsdom',
-      exclude: [...configDefaults.exclude, 'e2e/**'],
+      globals: true,
+      setupFiles: ['./src/setupTests.ts'],
+      exclude: [...configDefaults.exclude, 'e2e/**', 'playwright/**'],
+      coverage: {
+        provider: 'v8',
+        reporter: ['text', 'html', 'json-summary'],
+        reportsDirectory: './coverage',
+        include: ['src/**/*.{ts,vue}'],
+        exclude: ['src/**/__tests__/**'],
+        thresholds: {
+          statements: 75,
+          branches: 75,
+          functions: 75,
+          lines: 75,
+        },
+      },
       root: fileURLToPath(new URL('./', import.meta.url)),
     },
   }),

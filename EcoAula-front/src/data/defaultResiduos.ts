@@ -1,0 +1,58 @@
+import type { ResiduoApiRecord } from '@/types/residuos'
+
+export const DEFAULT_RESIDUOS: ResiduoApiRecord[] = [
+  {
+    id: 1,
+    name: 'Caja archivo',
+    description: 'Material seco',
+    heavy: 12.5,
+    category: 'PAPER',
+    date: '24-10-2023',
+    status: 'pendiente',
+  },
+  {
+    id: 2,
+    name: 'Botellas PET',
+    description: 'Lote cafeteria',
+    heavy: 8.2,
+    category: 'PLASTIC',
+    date: '23-10-2023',
+    status: 'recogido',
+  },
+  {
+    id: 3,
+    name: 'Frascos de vidrio',
+    description: 'Laboratorio',
+    heavy: 3,
+    category: 'GLASS',
+    date: '22-10-2023',
+    status: 'pendiente',
+  },
+  {
+    id: 4,
+    name: 'Restos organicos',
+    description: 'Comedor',
+    heavy: 45,
+    category: 'ORGANIC',
+    date: '22-10-2023',
+    status: 'recogido',
+  },
+  {
+    id: 5,
+    name: 'Carton embalaje',
+    description: 'Recepcion',
+    heavy: 7.5,
+    category: 'CARDBOARD',
+    date: '21-10-2023',
+    status: 'recogido',
+  },
+  {
+    id: 6,
+    name: 'Latas',
+    description: 'Zona deportiva',
+    heavy: 5,
+    category: 'METAL',
+    date: '20-10-2023',
+    status: 'pendiente',
+  },
+]

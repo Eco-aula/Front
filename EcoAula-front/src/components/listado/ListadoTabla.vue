@@ -11,6 +11,7 @@ const props = withDefaults(defineProps<{
 
 const emit = defineEmits<{
   (e: 'goToPage', page: number): void
+  (e: 'eliminarResiduo', id: number): void
 }>()
 
 const iconMap: Record<string, string> = {
@@ -59,7 +60,7 @@ function getIconPath(icon: string): string {
                 <circle cx="12" cy="12" r="3"/>
               </svg>
             </button>
-            <button class="accion-btn danger" title="Eliminar">
+            <button class="accion-btn danger" title="Eliminar" @click="emit('eliminarResiduo', residuo.id)">
               <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="3 6 5 6 21 6"/>
                 <path d="m19 6-.867 13.142A2 2 0 0 1 16.138 21H7.862a2 2 0 0 1-1.995-1.858L5 6"/>
