@@ -42,7 +42,23 @@ export const routes = [
   },
 ]
 
-const routerMode = (import.meta.env.VITE_ROUTER_MODE ?? 'history').toLowerCase()
+function resolveRouterMode(): 'hash' | 'history' {
+  const explicitMode = (import.meta.env.VITE_ROUTER_MODE ?? '').toLowerCase()
+  if (explicitMode === 'hash' || explicitMode === 'history') {
+    return explicitMode
+  }
+
+  if (
+    typeof window !== 'undefined' &&
+    window.location.hostname.toLowerCase().endsWith('github.io')
+  ) {
+    return 'hash'
+  }
+
+  return 'history'
+}
+
+const routerMode = resolveRouterMode()
 const history =
   routerMode === 'hash'
     ? createWebHashHistory(import.meta.env.BASE_URL)
