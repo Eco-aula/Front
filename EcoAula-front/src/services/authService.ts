@@ -10,7 +10,7 @@ export const loginUser = async (
   password: string
 ): Promise<User> => {
   try {
-    const response = await fetch("http://localhost:8080/api/v1/users/1");
+    const response = await fetch("/api/v1/users/1");
 
     console.log("Response status:", response.status);
 
@@ -40,7 +40,7 @@ export const registerUser = async (
   password: string
 ): Promise<User> => {
   try {
-    const response = await fetch("http://localhost:8080/api/v1/users", {
+    const response = await fetch("/api/v1/users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

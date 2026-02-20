@@ -77,6 +77,7 @@
 import { reactive } from 'vue';
 import WasteTypeSelector from './WasteTypeSelector.vue';
 import RegistrationCalendar from './RegistrationCalendar.vue';
+import { registerWaste, type WasteCategory } from '@/services/authWaste';
 
 const formData = reactive({
   name: '',
@@ -86,7 +87,34 @@ const formData = reactive({
   observations: ''
 });
 
-const handleSubmit = () => {
-  console.log('Form submitted:', formData);
+// Mapeo entre los valores del componente y el ENUM del backend
+const typeMapping: Record<string, WasteCategory> = {
+  papel: 'PAPER',
+  plastico: 'PLASTIC',
+  vidrio: 'GLASS',
+  organico: 'ORGANIC',
+  carton: 'CARDBOARD',
+  metal: 'METAL'
+};
+
+const handleSubmit = async () => {
+  try {
+    const wasteData = {
+      name: formData.name,
+      category: (typeMapping[formData.wasteType] || 'PAPER') as WasteCategory,
+      description: formData.observations,
+      heavy: parseFloat(formData.quantity.toString()) || 0
+    };
+
+    const result = await registerWaste(wasteData);
+    console.log('Residuo registrado con éxito:', result);
+    alert('Residuo registrado correctamente');
+    
+    // Opcional: Limpiar formulario
+    // Object.assign(formData, { name: '', quantity: '', observations: '' });
+    
+  } catch (error: any) {
+    alert('Error al registrar: ' + error.message);
+  }
 };
 </script>
