@@ -12,6 +12,7 @@ const {
   opcionesRango,
   opcionesEstado,
   aplicarFiltros,
+  eliminarResiduo,
   residuosPaginados,
   residuosFiltrados,
   currentPage,
@@ -65,6 +66,7 @@ const {
       :total-filtrados="residuosFiltrados.length"
       :items-per-page="4"
       @go-to-page="goToPage"
+      @eliminar-residuo="eliminarResiduo"
     />
 
     <ListadoStats

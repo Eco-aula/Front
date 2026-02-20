@@ -74,4 +74,21 @@ describe('ListadoTabla', () => {
 
     expect(wrapper.emitted('goToPage')).toEqual([[1], [2], [3]])
   })
+
+  it('emits delete event with residuo id when delete button is clicked', async () => {
+    const wrapper = mount(ListadoTabla, {
+      props: {
+        residuos: createResiduos(),
+        currentPage: 1,
+        totalPages: 1,
+        totalFiltrados: 2,
+        itemsPerPage: 4,
+      },
+    })
+
+    const deleteButtons = wrapper.findAll('button.accion-btn.danger')
+    await deleteButtons[0]!.trigger('click')
+
+    expect(wrapper.emitted('eliminarResiduo')).toEqual([[1]])
+  })
 })

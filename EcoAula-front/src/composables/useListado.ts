@@ -77,6 +77,10 @@ export function useListado() {
     currentPage.value = 1
   }
 
+  async function eliminarResiduo(id: number) {
+    await residuosStore.deleteResiduo(id)
+  }
+
   async function recargar() {
     await residuosStore.fetchResiduos(true)
   }
@@ -116,6 +120,7 @@ export function useListado() {
     opcionesRango,
     opcionesEstado,
     aplicarFiltros,
+    eliminarResiduo,
     residuosPaginados,
     residuosFiltrados,
     currentPage,

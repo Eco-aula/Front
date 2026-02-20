@@ -50,6 +50,22 @@ describe('msw handlers', () => {
     expect(createdWaste.id).toBeGreaterThan(0)
     expect(createdWaste.category).toBe('METAL')
     expect(createdWaste.heavy).toBe(3)
+
+    const deleteResponse = await fetch(
+      `http://localhost:8080/api/v1/wastes/${createdWaste.id}`,
+      { method: 'DELETE' },
+    )
+    expect(deleteResponse.status).toBe(204)
+
+    const deleteMissingResponse = await fetch(
+      `http://localhost:8080/api/v1/wastes/${createdWaste.id}`,
+      { method: 'DELETE' },
+    )
+    expect(deleteMissingResponse.status).toBe(404)
+    expect(await deleteMissingResponse.json()).toMatchObject({
+      message: 'Residuo no encontrado',
+      path: `/api/v1/wastes/${createdWaste.id}`,
+    })
   })
 
   it('returns summary and volume datasets from containers endpoints', async () => {

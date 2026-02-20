@@ -164,4 +164,60 @@ describe('useResiduosStore', () => {
     expect(store.creating).toBe(false)
     expect(store.error).toBeNull()
   })
+
+  it('deletes synthetic summary items locally without backend call', async () => {
+    const store = useResiduosStore()
+    await store.fetchResiduos()
+    const initialLength = store.items.length
+    const syntheticId = store.items[0]?.id ?? 0
+
+    expect(syntheticId).toBeLessThanOrEqual(0)
+
+    await store.deleteResiduo(syntheticId)
+
+    expect(store.items.length).toBe(initialLength - 1)
+    expect(store.error).toBeNull()
+  })
+
+  it('deletes persisted wastes using backend endpoint', async () => {
+    const store = useResiduosStore()
+    const created = await store.createResiduo({
+      name: 'QA Bot',
+      wasteType: 'metal',
+      quantity: 11,
+      date: '2024-01-10T10:30:00.000Z',
+      observations: 'Integracion',
+    })
+
+    await store.deleteResiduo(created.id)
+
+    expect(store.items.find((item) => item.id === created.id)).toBeUndefined()
+    expect(store.error).toBeNull()
+  })
+
+  it('rolls back local state when backend delete fails', async () => {
+    const store = useResiduosStore()
+    const created = await store.createResiduo({
+      name: 'QA Bot',
+      wasteType: 'metal',
+      quantity: 11,
+      date: '2024-01-10T10:30:00.000Z',
+      observations: 'Integracion',
+    })
+
+    server.use(
+      http.delete('*/api/v1/wastes/:id', () => {
+        return HttpResponse.json(
+          { message: 'No se pudo eliminar en backend' },
+          { status: 500 },
+        )
+      }),
+    )
+
+    await expect(store.deleteResiduo(created.id)).rejects.toThrow(
+      'No se pudo eliminar en backend',
+    )
+    expect(store.items.find((item) => item.id === created.id)).toBeDefined()
+    expect(store.error).toBe('No se pudo eliminar en backend')
+  })
 })

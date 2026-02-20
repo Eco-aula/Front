@@ -4,6 +4,7 @@ import { computed, ref } from 'vue'
 import { ApiError } from '@/api/apiClient'
 import {
   createResiduo as createResiduoRequest,
+  deleteResiduo as deleteResiduoRequest,
   getResiduos,
 } from '@/api/residuosApi'
 import { DEFAULT_RESIDUOS } from '@/data/defaultResiduos'
@@ -75,6 +76,37 @@ export const useResiduosStore = defineStore('residuos', () => {
     }
   }
 
+  async function deleteResiduo(id: number): Promise<void> {
+    error.value = null
+
+    const existingIndex = items.value.findIndex((item) => item.id === id)
+    if (existingIndex === -1) {
+      return
+    }
+
+    const removedItem = items.value[existingIndex]!
+    items.value.splice(existingIndex, 1)
+
+    // Synthetic items come from container summary and are local-only.
+    if (id <= 0) {
+      return
+    }
+
+    try {
+      await deleteResiduoRequest(id)
+    } catch (caughtError) {
+      items.value.splice(existingIndex, 0, removedItem)
+
+      if (caughtError instanceof ApiError) {
+        error.value = caughtError.message
+      } else {
+        error.value = 'No se pudo eliminar el residuo. Intente nuevamente.'
+      }
+
+      throw caughtError
+    }
+  }
+
   const hasItems = computed(() => items.value.length > 0)
 
   return {
@@ -86,5 +118,6 @@ export const useResiduosStore = defineStore('residuos', () => {
     hasItems,
     fetchResiduos,
     createResiduo,
+    deleteResiduo,
   }
 })

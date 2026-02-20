@@ -217,4 +217,19 @@ export const handlers = [
 
     return HttpResponse.json(createdWaste, { status: 201 })
   }),
+
+  http.delete(`${API_BASE}/wastes/:id`, ({ params }) => {
+    const id = Number(params.id)
+    const wasteIndex = wastesDb.findIndex((item) => item.id === id)
+
+    if (Number.isNaN(id) || wasteIndex === -1) {
+      return HttpResponse.json(
+        buildErrorPayload(404, 'Residuo no encontrado', `/api/v1/wastes/${params.id}`),
+        { status: 404 },
+      )
+    }
+
+    wastesDb.splice(wasteIndex, 1)
+    return new HttpResponse(null, { status: 204 })
+  }),
 ]

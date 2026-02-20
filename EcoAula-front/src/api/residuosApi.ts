@@ -1,5 +1,5 @@
 import { getContainersSummary } from '@/api/containersApi'
-import { createWaste } from '@/api/wastesApi'
+import { createWaste, deleteWaste } from '@/api/wastesApi'
 import type {
   CreateResiduoRequest,
   CreateResiduoInput,
@@ -12,7 +12,7 @@ export async function getResiduos(): Promise<ResiduoItem[]> {
   const summary = await getContainersSummary()
   return summary.map((container, index) => {
     const syntheticRecord: ResiduoApiRecord = {
-      id: index + 1,
+      id: -(index + 1),
       name: `Contenedor ${index + 1}`,
       description: 'Resumen operativo',
       heavy: 0,
@@ -38,4 +38,8 @@ export async function createResiduo(
     ...response,
     status: 'pendiente',
   })
+}
+
+export function deleteResiduo(id: number): Promise<void> {
+  return deleteWaste(id)
 }
