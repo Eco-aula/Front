@@ -1,53 +1,66 @@
 # EcoAula Frontend
 
-[![Frontend CI](https://github.com/Eco-aula/Front/actions/workflows/frontend-ci.yml/badge.svg)](https://github.com/Eco-aula/Front/actions/workflows/frontend-ci.yml)
+[![Frontend CI (main)](https://github.com/Eco-aula/Front/actions/workflows/frontend-ci.yml/badge.svg?branch=main)](https://github.com/Eco-aula/Front/actions/workflows/frontend-ci.yml)
+[![Docs Publish (dev)](https://github.com/Eco-aula/Front/actions/workflows/pages.yml/badge.svg?branch=dev)](https://github.com/Eco-aula/Front/actions/workflows/pages.yml)
 [![Coverage](https://img.shields.io/endpoint?url=https%3A%2F%2Feco-aula.github.io%2FFront%2Fbadges%2Fcoverage.json)](https://eco-aula.github.io/Front/badges/coverage.json)
+[![Vue 3](https://img.shields.io/badge/Vue-3-42b883?logo=vue.js)](https://vuejs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178c6?logo=typescript)](https://www.typescriptlang.org/)
 
-Aplicación frontend para la gestión institucional de residuos en EcoAula. Incluye autenticación, panel de control, registro de residuos, listado operativo y gestión de alertas.
+Frontend para la gestion institucional de residuos en EcoAula.
+Incluye autenticacion, panel operativo, registro de residuos, listado y gestion de alertas.
 
-## Tecnologías
+## Enlaces rapidos
 
-- Vue 3 + Vite + TypeScript
-- Pinia (estado global)
-- Vue Router (ruteo y guards)
-- Vitest + Testing Library + MSW (unitarias/integración)
-- Playwright (E2E)
+- Repositorio: <https://github.com/Eco-aula/Front>
+- Acciones CI/CD: <https://github.com/Eco-aula/Front/actions>
+- GitHub Pages (docs): <https://eco-aula.github.io/Front/>
+- Coverage JSON publico: <https://eco-aula.github.io/Front/badges/coverage.json>
+- Documentacion de testing: `EcoAula-front/docs/frontend-testing.md`
 
 ## Funcionalidades principales
 
 - Login y registro de usuarios.
-- Dashboard general con KPIs, distribución y últimos movimientos.
-- Registro de residuos con formulario validado.
-- Listado de residuos con filtros, paginación y estados `loading/empty/error`.
-- Módulo de alertas con filtrado por prioridad y gestión operativa.
-- Protección de rutas privadas mediante guard de autenticación.
+- Dashboard con KPIs, distribucion y ultimos movimientos.
+- Registro de residuos con validacion de formulario.
+- Listado de residuos con filtros, paginacion y estados `loading/empty/error`.
+- Modulo de alertas con filtros por prioridad.
+- Rutas privadas protegidas por autenticacion.
 
-## Rutas de la aplicación
+## Stack tecnico
 
-- `/` → Login/Registro
-- `/dashboard` → Vista general
-- `/registrar` → Alta de residuo
-- `/listado` → Listado y métricas operativas
-- `/alertas` → Gestión de alertas
-- `/home` → Redirección a `/dashboard`
-- `*` → Redirección a `/`
+| Area | Herramientas |
+| --- | --- |
+| Framework | Vue 3 + Vite |
+| Lenguaje | TypeScript |
+| Estado | Pinia |
+| Routing | Vue Router |
+| Unit/Integration | Vitest + Testing Library + MSW |
+| End-to-End | Playwright |
+| CI/CD | GitHub Actions + GitHub Pages |
 
-## Estructura del proyecto
+## Estructura del repositorio
 
 ```text
-src/
-  api/           # Cliente HTTP y servicios
-  components/    # UI por dominios (home, listado, registrar, login, alertas)
-  composables/   # Lógica de presentación reutilizable
-  stores/        # Estado global (Pinia)
-  router/        # Rutas y guard de acceso
-  views/         # Vistas principales por ruta
-  utils/         # Utilidades y validaciones
-  mocks/         # Handlers MSW (tests)
-  __tests__/     # Unit, integración y smoke tests
-docs/
-  badges/        # JSON de badge de cobertura para Shields
-e2e/             # Pruebas Playwright
+Front/
+  .github/workflows/
+    frontend-ci.yml
+    pages.yml
+  EcoAula-front/
+    src/
+      api/
+      components/
+      composables/
+      router/
+      stores/
+      utils/
+      views/
+      __tests__/
+    e2e/
+    docs/
+      badges/coverage.json
+      frontend-testing.md
+    package.json
+  README.md
 ```
 
 ## Requisitos
@@ -55,64 +68,66 @@ e2e/             # Pruebas Playwright
 - Node.js `^20.19.0 || >=22.12.0`
 - npm
 
-## Configuración de entorno
+## Configuracion de entorno
 
 La API base se toma de `VITE_API_BASE_URL`.
+Si no se define, se usa `/api` por defecto.
 
-Si no se define, el frontend usa `/api` por defecto.
-
-Ejemplo de `.env`:
+Ejemplo `.env`:
 
 ```bash
 VITE_API_BASE_URL=https://tu-api.ejemplo.com/api
 ```
 
-## Instalación y ejecución
+## Arranque local
 
 ```bash
+cd EcoAula-front
 npm ci
 npm run dev
 ```
 
-Build de producción:
-
-```bash
-npm run build
-```
-
-Previsualización del build:
-
-```bash
-npm run preview
-```
+App en desarrollo: <http://localhost:5173>
 
 ## Scripts disponibles
 
-- `npm run dev`: servidor de desarrollo.
-- `npm run build`: type-check + build.
-- `npm run preview`: servir build local.
-- `npm run test`: pruebas unitarias + integración.
-- `npm run test:watch`: modo watch.
-- `npm run test:coverage`: cobertura (texto + HTML + summary JSON).
-- `npm run coverage:badge`: genera `docs/badges/coverage.json` desde cobertura real.
-- `npm run e2e`: pruebas end-to-end con Playwright.
+| Script | Que hace |
+| --- | --- |
+| `npm run dev` | Arranca servidor de desarrollo |
+| `npm run build` | Ejecuta type-check y build de produccion |
+| `npm run preview` | Sirve build local para validacion |
+| `npm run test` | Ejecuta pruebas unitarias e integracion |
+| `npm run test:watch` | Modo watch de Vitest |
+| `npm run test:coverage` | Ejecuta tests con cobertura |
+| `npm run coverage:badge` | Genera `docs/badges/coverage.json` |
+| `npm run e2e` | Ejecuta pruebas E2E con Playwright |
 
 ## Testing y cobertura
 
-- Reporte HTML: `coverage/index.html`
-- Documentación técnica de testing: `docs/frontend-testing.md`
-
-### Regenerar cobertura y badge en local
+Comandos:
 
 ```bash
+cd EcoAula-front
+npm run test
 npm run test:coverage
 npm run coverage:badge
+npm run e2e
 ```
 
-Archivo local generado: `docs/badges/coverage.json`
+Salidas:
 
-## CI/CD y badges automáticos
+- HTML coverage: `EcoAula-front/coverage/index.html`
+- Resumen coverage: `EcoAula-front/coverage/coverage-summary.json`
+- Badge JSON: `EcoAula-front/docs/badges/coverage.json`
 
-- `frontend-ci.yml`: ejecuta tests, cobertura y E2E en cada `push`/`pull_request` a `dev` y `main`.
-- `pages.yml`: en cada `push` a `dev` regenera `docs/badges/coverage.json` y publica `docs/` en GitHub Pages.
-- Endpoint público del badge de cobertura: `https://eco-aula.github.io/Front/badges/coverage.json`
+## Workflows de GitHub Actions
+
+| Workflow | Archivo | Trigger | Objetivo |
+| --- | --- | --- | --- |
+| Frontend CI | `.github/workflows/frontend-ci.yml` | `push` y `pull_request` a `dev` y `main` | Unit, coverage, E2E y artifacts |
+| Publish Frontend Docs | `.github/workflows/pages.yml` | `push` a `dev` | Regenera coverage badge y publica `docs/` en Pages |
+
+## Nota importante sobre README y badges
+
+Para que el README y los badges se vean en GitHub, el archivo `README.md` debe estar en la raiz del repo y el commit debe estar empujado a la rama remota (`origin/main`).
+
