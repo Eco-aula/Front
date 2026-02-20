@@ -142,7 +142,11 @@ async function handleSubmit() {
     await router?.push('/dashboard')
   } catch (caughtError) {
     if (caughtError instanceof ApiError) {
-      submitError.value = caughtError.message
+      if (caughtError.status === 500) {
+        submitError.value = 'Ese correo puede estar ya registrado, prueba otro.'
+      } else {
+        submitError.value = caughtError.message
+      }
     } else {
       submitError.value = 'No se pudo registrar la cuenta. Intente nuevamente.'
     }

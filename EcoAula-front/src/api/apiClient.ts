@@ -13,6 +13,9 @@ export class ApiError extends Error {
 }
 
 const API_V1_PATH = '/api/v1'
+const LOCAL_DEV_API_ORIGIN = 'http://localhost:8080'
+const PRODUCTION_API_ORIGIN = 'https://ecoaula-backend.onrender.com'
+const LOCAL_HOSTNAMES = new Set(['localhost', '127.0.0.1'])
 
 function normalizeBaseUrl(rawBaseUrl: string): string {
   const trimmed = rawBaseUrl.replace(/\/$/, '')
@@ -22,22 +25,48 @@ function normalizeBaseUrl(rawBaseUrl: string): string {
   return `${trimmed}${API_V1_PATH}`
 }
 
-const configuredApiUrl = import.meta.env.VITE_API_URL?.trim()
-const API_BASE_URL = normalizeBaseUrl(
-  configuredApiUrl && configuredApiUrl.length > 0
-    ? configuredApiUrl
-    : 'http://localhost:8080',
-)
+function resolveRuntimeHostname(): string | null {
+  if (typeof window === 'undefined') {
+    return null
+  }
+
+  return window.location.hostname.toLowerCase()
+}
+
+function resolveDefaultApiOrigin(): string {
+  if (import.meta.env.PROD) {
+    return PRODUCTION_API_ORIGIN
+  }
+
+  const runtimeHostname = resolveRuntimeHostname()
+  if (runtimeHostname && LOCAL_HOSTNAMES.has(runtimeHostname)) {
+    return LOCAL_DEV_API_ORIGIN
+  }
+
+  return PRODUCTION_API_ORIGIN
+}
+
+function resolveApiBaseUrl(): string {
+  const configuredApiUrl = import.meta.env.VITE_API_URL?.trim()
+  const rawBaseUrl =
+    configuredApiUrl && configuredApiUrl.length > 0
+      ? configuredApiUrl
+      : resolveDefaultApiOrigin()
+
+  return normalizeBaseUrl(rawBaseUrl)
+}
 
 function buildUrl(path: string): string {
+  const apiBaseUrl = resolveApiBaseUrl()
+
   if (path.startsWith('http://') || path.startsWith('https://')) {
     return path
   }
 
   if (path.startsWith('/')) {
-    return `${API_BASE_URL}${path}`
+    return `${apiBaseUrl}${path}`
   }
-  return `${API_BASE_URL}/${path}`
+  return `${apiBaseUrl}/${path}`
 }
 
 function extractErrorMessage(payload: unknown, fallback: string): string {

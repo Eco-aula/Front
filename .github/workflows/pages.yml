@@ -43,7 +43,7 @@ jobs:
 
       - name: Build frontend for GitHub Pages
         env:
-          VITE_API_URL: ${{ vars.VITE_API_URL }}
+          VITE_API_URL: ${{ vars.VITE_API_URL || 'https://ecoaula-backend.onrender.com' }}
           VITE_PUBLIC_BASE_PATH: /Front/
           VITE_ROUTER_MODE: hash
         run: npm run build

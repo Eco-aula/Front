@@ -150,4 +150,24 @@ describe('RegisterForm', () => {
 
     expect(await screen.findByText('El correo ya existe')).toBeInTheDocument()
   })
+
+  it('shows friendly message for register 500 errors', async () => {
+    const user = userEvent.setup()
+
+    server.use(
+      http.post(`${API_BASE}/users`, () => {
+        return HttpResponse.json({ message: 'Error interno' }, { status: 500 })
+      }),
+    )
+
+    render(RegisterForm)
+    await user.type(screen.getByLabelText(/^nombre$/i), 'Usuario QA')
+    await user.type(screen.getByLabelText(/correo electronico/i), 'new@example.com')
+    await user.type(screen.getByLabelText(/contrasena/i), 'secret123')
+    await user.click(screen.getByRole('button', { name: /registrarse/i }))
+
+    expect(
+      await screen.findByText('Ese correo puede estar ya registrado, prueba otro.'),
+    ).toBeInTheDocument()
+  })
 })
