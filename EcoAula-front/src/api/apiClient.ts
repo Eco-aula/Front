@@ -12,12 +12,28 @@ export class ApiError extends Error {
   }
 }
 
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL ?? '/api').replace(
-  /\/$/,
-  '',
+const API_V1_PATH = '/api/v1'
+
+function normalizeBaseUrl(rawBaseUrl: string): string {
+  const trimmed = rawBaseUrl.replace(/\/$/, '')
+  if (trimmed.endsWith(API_V1_PATH)) {
+    return trimmed
+  }
+  return `${trimmed}${API_V1_PATH}`
+}
+
+const configuredApiUrl = import.meta.env.VITE_API_URL?.trim()
+const API_BASE_URL = normalizeBaseUrl(
+  configuredApiUrl && configuredApiUrl.length > 0
+    ? configuredApiUrl
+    : 'http://localhost:8080',
 )
 
 function buildUrl(path: string): string {
+  if (path.startsWith('http://') || path.startsWith('https://')) {
+    return path
+  }
+
   if (path.startsWith('/')) {
     return `${API_BASE_URL}${path}`
   }
@@ -49,6 +65,10 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
     },
   })
 
+  if (response.status === 204) {
+    return undefined as T
+  }
+
   const contentType = response.headers.get('content-type') ?? ''
   const isJson = contentType.includes('application/json')
   const payload = isJson ? await response.json() : await response.text()
@@ -73,6 +93,23 @@ export const apiClient = {
     return request<TResponse>(path, {
       method: 'POST',
       body: JSON.stringify(body),
+    })
+  },
+  put<TResponse, TBody>(path: string, body: TBody): Promise<TResponse> {
+    return request<TResponse>(path, {
+      method: 'PUT',
+      body: JSON.stringify(body),
+    })
+  },
+  patch<TResponse, TBody>(path: string, body: TBody): Promise<TResponse> {
+    return request<TResponse>(path, {
+      method: 'PATCH',
+      body: JSON.stringify(body),
+    })
+  },
+  delete(path: string): Promise<void> {
+    return request<void>(path, {
+      method: 'DELETE',
     })
   },
 }

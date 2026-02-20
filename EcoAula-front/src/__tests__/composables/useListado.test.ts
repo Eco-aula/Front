@@ -35,7 +35,7 @@ describe('useListado', () => {
     wrapper.vm.goToPage(999)
     expect(wrapper.vm.currentPage).toBe(2)
 
-    wrapper.vm.filtroPorTipo = 'quimico'
+    wrapper.vm.filtroPorTipo = 'metal'
     await wrapper.vm.$nextTick()
     expect(wrapper.vm.currentPage).toBe(1)
 

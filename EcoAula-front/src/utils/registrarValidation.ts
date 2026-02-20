@@ -25,7 +25,7 @@ export function validateRegistrarForm(
     errors.name = 'Ingrese un nombre valido (minimo 3 caracteres).'
   }
 
-  if (!VALID_WASTE_TYPES.has(formData.wasteType)) {
+  if (!VALID_WASTE_TYPES.has(formData.wasteType as (typeof WASTE_TYPE_VALUES)[number])) {
     errors.wasteType = 'Seleccione un tipo de residuo valido.'
   }
 

@@ -2,6 +2,14 @@ export const RESIDUO_STATUS_VALUES = ['pendiente', 'recogido'] as const
 
 export type EstadoBadge = (typeof RESIDUO_STATUS_VALUES)[number]
 
+export type WasteCategory =
+  | 'PLASTIC'
+  | 'GLASS'
+  | 'CARDBOARD'
+  | 'ORGANIC'
+  | 'PAPER'
+  | 'METAL'
+
 export const WASTE_TYPE_VALUES = [
   'papel',
   'plastico',
@@ -9,7 +17,6 @@ export const WASTE_TYPE_VALUES = [
   'organico',
   'carton',
   'metal',
-  'quimico',
 ] as const
 
 export type WasteTypeValue = (typeof WASTE_TYPE_VALUES)[number]
@@ -25,12 +32,12 @@ export interface ResiduoItem {
 
 export interface ResiduoApiRecord {
   id: number
-  wasteType: string
-  quantityKg: number
-  createdAt: string
-  status: EstadoBadge
-  createdBy: string
-  observations?: string
+  name: string
+  description: string
+  heavy: number
+  category: WasteCategory
+  date?: string
+  status?: EstadoBadge
 }
 
 export interface CreateResiduoInput {
@@ -43,10 +50,9 @@ export interface CreateResiduoInput {
 
 export interface CreateResiduoRequest {
   name: string
-  wasteType: string
-  quantityKg: number
-  createdAt: string
-  observations: string
+  description: string
+  heavy: number
+  category: WasteCategory
 }
 
 export interface RegistrarFormData {

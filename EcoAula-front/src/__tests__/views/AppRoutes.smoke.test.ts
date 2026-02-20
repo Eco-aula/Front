@@ -48,12 +48,12 @@ describe('App route smoke tests', () => {
     let gestionarButtons = await screen.findAllByRole('button', {
       name: 'Gestionar',
     })
-    await user.click(gestionarButtons[0])
+    await user.click(gestionarButtons[0]!)
 
     gestionarButtons = await screen.findAllByRole('button', {
       name: 'Gestionar',
     })
-    await user.click(gestionarButtons[0])
+    await user.click(gestionarButtons[0]!)
 
     const closedAfter = (await screen.findAllByText('Cerrada')).length
     expect(closedAfter).toBe(closedBefore + 1)

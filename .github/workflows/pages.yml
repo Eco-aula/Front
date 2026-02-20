@@ -1,8 +1,9 @@
-name: Publish Frontend Docs
+name: Publish Frontend App
 
 on:
   push:
-    branches: [dev]
+    branches: [dev, main]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -15,7 +16,7 @@ concurrency:
 
 jobs:
   build:
-    name: Build docs artifact
+    name: Build app artifact
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -40,13 +41,26 @@ jobs:
       - name: Generate coverage badge JSON
         run: npm run coverage:badge
 
+      - name: Build frontend for GitHub Pages
+        env:
+          VITE_API_URL: ${{ vars.VITE_API_URL }}
+          VITE_PUBLIC_BASE_PATH: /Front/
+          VITE_ROUTER_MODE: hash
+        run: npm run build
+
+      - name: Copy coverage badge into deployed site
+        run: |
+          mkdir -p dist/badges
+          cp docs/badges/coverage.json dist/badges/coverage.json
+          touch dist/.nojekyll
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
-      - name: Upload docs to Pages artifact
+      - name: Upload app to Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: EcoAula-front/docs
+          path: EcoAula-front/dist
 
   deploy:
     name: Deploy to GitHub Pages

@@ -1,137 +1,77 @@
 # Frontend Testing
 
-> Documentación técnica de la estrategia de pruebas del frontend de EcoAula.
+## Objetivo
 
-## Resumen ejecutivo
+Mantener pruebas estables y utiles para detectar regresiones en:
 
-| Indicador | Resultado |
-| --- | --- |
-| Cobertura de statements | 96.20% |
-| Cobertura de branches | 94.66% |
-| Cobertura de functions | 92.21% |
-| Cobertura de lines | 96.11% |
-| Umbral mínimo requerido | 75% |
-| Estado final | Cumplido con margen alto |
+- UI (componentes y vistas)
+- logica de composables y stores
+- integracion HTTP con el backend (`/api/v1`)
+- flujos completos de usuario
 
-## 1. Rama de trabajo
+## Stack de pruebas
 
-- Rama utilizada: `test/frontend-max-coverage`.
-- Objetivo: aumentar cobertura y estabilidad sin bloquear el desarrollo funcional.
-- Integración: cambios incorporados a `dev` tras validar ejecución completa.
+- `Vitest`: unit tests e integracion
+- `@testing-library/vue`: pruebas orientadas a comportamiento
+- `MSW`: mocking de endpoints HTTP
+- `Playwright`: pruebas E2E
+- `@vitest/coverage-v8`: cobertura
 
-## 2. Objetivo de testing
+## Estructura
 
-Maximizar cobertura y estabilidad del frontend con foco en:
+```text
+src/__tests__/           # unit + integration + smoke tests
+src/mocks/               # handlers MSW para endpoints backend
+e2e/                     # escenarios Playwright
+coverage/                # reporte local de cobertura
+docs/badges/coverage.json
+```
 
-- incrementar cobertura global;
-- asegurar componentes críticos;
-- validar flujos reales de usuario;
-- integrar pruebas end-to-end;
-- garantizar cumplimiento de cobertura mínima (`>= 75%`).
+## Comandos
 
-## 3. Stack de pruebas
+Ejecutar pruebas unitarias/integracion:
 
-| Área | Herramienta | Uso |
-| --- | --- | --- |
-| Unit testing | `Vitest` | Pruebas unitarias rápidas y deterministas |
-| Integration testing | `@testing-library/vue` | Pruebas orientadas a comportamiento del usuario |
-| Mocking API | `MSW` | Mocking controlado de red para escenarios de prueba |
-| Cobertura | `@vitest/coverage-v8` | Medición de cobertura por statements/branches/functions/lines |
-| E2E | `Playwright` | Validación de flujos críticos en entorno real |
+```bash
+npm run test
+```
 
-## 4. Estrategia de pruebas
-
-### 4.1 Pruebas unitarias
-
-Cobertura aplicada sobre:
-
-- componentes individuales;
-- stores (estado y acciones);
-- utilidades;
-- router;
-- capa de API.
-
-Casos validados:
-
-- renderizado correcto;
-- props y eventos;
-- estados condicionales;
-- manejo de errores;
-- validaciones de formularios;
-- ramas condicionales (`if / else`).
-
-### 4.2 Pruebas de integración
-
-Validación de interacción real entre módulos:
-
-- navegación entre rutas;
-- interacción componente + store;
-- flujo completo de formularios;
-- estados asíncronos;
-- renderizado condicionado por datos.
-
-### 4.3 Pruebas End-to-End (E2E)
-
-Flujos críticos cubiertos:
-
-- login;
-- registro;
-- creación de residuo;
-- visualización en listado;
-- navegación principal.
-
-## 5. Cobertura
-
-Comando principal:
+Ejecutar cobertura:
 
 ```bash
 npm run test:coverage
 ```
 
-Reporte visual:
-
-![Reporte de cobertura Frontend](assets/frontend-coverage.png)
-
-Interpretación:
-
-- la cobertura supera ampliamente el umbral mínimo requerido;
-- los resultados son estables y reproducibles en ejecuciones limpias.
-
-## 6. Buenas prácticas aplicadas
-
-- separación clara de responsabilidades;
-- mocking controlado de dependencias;
-- tests independientes y deterministas;
-- sin dependencia de backend real para unit/integration;
-- E2E aislado por flujos;
-- código de pruebas mantenible;
-- cobertura real, no artificial.
-
-## 7. Garantía de estabilidad
-
-Validación en entorno limpio:
+Generar badge JSON:
 
 ```bash
-npm ci
-npm run test
-npm run test:coverage
+npm run coverage:badge
+```
+
+Ejecutar E2E:
+
+```bash
 npm run e2e
 ```
 
-Resultado esperado:
+## Cobertura actual
 
-- ejecución sin errores;
-- cobertura consistente;
-- flujos críticos funcionales.
+Resultado ejecutado localmente el **20 de febrero de 2026**:
 
-## 8. Conclusión
+- Statements: `93.41%`
+- Branches: `88.84%`
+- Functions: `88.37%`
+- Lines: `93.07%`
 
-El frontend dispone de:
+Badge actualizado: `docs/badges/coverage.json`
 
-- pruebas unitarias;
-- pruebas de integración;
-- pruebas end-to-end;
-- cobertura superior al 90%;
-- ejecución reproducible.
+## Escenarios minimos validados
 
-Este enfoque reduce el riesgo de regresiones y mejora la seguridad de cambios futuros.
+- carga de dashboard (summary + volume by category)
+- alta de usuario
+- alta de residuo
+- listado de residuos
+- visualizacion de errores backend (`400/404`) usando campo `message`
+
+## Reporte visual
+
+![Reporte de cobertura Frontend](assets/frontend-coverage.png)

@@ -3,6 +3,7 @@ import type {
   CreateResiduoRequest,
   ResiduoApiRecord,
   ResiduoItem,
+  WasteCategory,
 } from '@/types/residuos'
 
 interface WasteTypeMeta {
@@ -17,11 +18,15 @@ const DEFAULT_WASTE_META: WasteTypeMeta = {
 
 const WASTE_TYPES: Record<string, WasteTypeMeta> = {
   papel: { label: 'Papel y Carton', icon: 'description' },
+  paper: { label: 'Papel y Carton', icon: 'description' },
   carton: { label: 'Papel y Carton', icon: 'description' },
+  cardboard: { label: 'Papel y Carton', icon: 'description' },
   plastico: { label: 'Plasticos (PET)', icon: 'recycling' },
-  quimico: { label: 'Residuos Quimicos', icon: 'science' },
+  plastic: { label: 'Plasticos (PET)', icon: 'recycling' },
   organico: { label: 'Organicos', icon: 'restaurant' },
+  organic: { label: 'Organicos', icon: 'restaurant' },
   vidrio: { label: 'Vidrio', icon: 'wine_bar' },
+  glass: { label: 'Vidrio', icon: 'wine_bar' },
   metal: { label: 'Metal', icon: 'hardware' },
 }
 
@@ -37,6 +42,29 @@ function normalizeText(value: string): string {
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
     .trim()
+}
+
+const WASTE_TYPE_TO_CATEGORY: Record<string, WasteCategory> = {
+  papel: 'PAPER',
+  carton: 'CARDBOARD',
+  plastico: 'PLASTIC',
+  organico: 'ORGANIC',
+  vidrio: 'GLASS',
+  metal: 'METAL',
+}
+
+function parseResiduoDate(rawDate: string): Date | null {
+  const ddMmYyyyMatch = rawDate.match(/^(\d{2})-(\d{2})-(\d{4})$/)
+  if (ddMmYyyyMatch) {
+    const [, day, month, year] = ddMmYyyyMatch
+    return new Date(`${year}-${month}-${day}T00:00:00`)
+  }
+
+  const parsedDate = new Date(rawDate)
+  if (Number.isNaN(parsedDate.getTime())) {
+    return null
+  }
+  return parsedDate
 }
 
 export function getWasteTypeMetadata(rawWasteType: string): WasteTypeMeta {
@@ -63,24 +91,30 @@ export function formatResiduoQuantity(quantityKg: number): string {
 }
 
 export function formatResiduoDate(rawDate: string): string {
-  const parsedDate = new Date(rawDate)
-  if (Number.isNaN(parsedDate.getTime())) {
+  const parsedDate = parseResiduoDate(rawDate)
+  if (!parsedDate) {
     return rawDate
   }
   return DATE_FORMATTER.format(parsedDate)
 }
 
 export function toResiduoItem(record: ResiduoApiRecord): ResiduoItem {
-  const metadata = getWasteTypeMetadata(record.wasteType)
+  const metadata = getWasteTypeMetadata(record.category)
+  const rawDate = record.date ?? new Date().toISOString()
 
   return {
     id: record.id,
     tipo: metadata.label,
     icon: metadata.icon,
-    cantidad: formatResiduoQuantity(record.quantityKg),
-    fecha: formatResiduoDate(record.createdAt),
-    estado: record.status,
+    cantidad: formatResiduoQuantity(record.heavy),
+    fecha: formatResiduoDate(rawDate),
+    estado: record.status ?? 'pendiente',
   }
+}
+
+export function mapWasteTypeToCategory(rawWasteType: string): WasteCategory {
+  const normalizedType = normalizeText(rawWasteType)
+  return WASTE_TYPE_TO_CATEGORY[normalizedType] ?? 'PAPER'
 }
 
 export function toCreateResiduoRequest(
@@ -88,10 +122,9 @@ export function toCreateResiduoRequest(
 ): CreateResiduoRequest {
   return {
     name: input.name.trim(),
-    wasteType: normalizeText(input.wasteType),
-    quantityKg: Number(input.quantity),
-    createdAt: input.date,
-    observations: input.observations.trim(),
+    description: input.observations.trim(),
+    heavy: Number(input.quantity),
+    category: mapWasteTypeToCategory(input.wasteType),
   }
 }
 

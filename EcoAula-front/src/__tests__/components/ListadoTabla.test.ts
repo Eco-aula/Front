@@ -68,9 +68,9 @@ describe('ListadoTabla', () => {
     })
 
     const buttons = wrapper.findAll('button.page-btn')
-    await buttons[0].trigger('click') // Anterior
-    await buttons[2].trigger('click') // Pagina 2
-    await buttons[4].trigger('click') // Siguiente
+    await buttons[0]!.trigger('click') // Anterior
+    await buttons[2]!.trigger('click') // Pagina 2
+    await buttons[4]!.trigger('click') // Siguiente
 
     expect(wrapper.emitted('goToPage')).toEqual([[1], [2], [3]])
   })

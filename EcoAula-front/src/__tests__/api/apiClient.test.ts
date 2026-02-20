@@ -18,7 +18,10 @@ describe('apiClient', () => {
     const payload = await apiClient.get<Array<{ id: number }>>('/residuos')
 
     expect(payload).toEqual([{ id: 1 }])
-    expect(fetchSpy).toHaveBeenCalledWith('/api/residuos', expect.any(Object))
+    expect(fetchSpy).toHaveBeenCalledWith(
+      'http://localhost:8080/api/v1/residuos',
+      expect.any(Object),
+    )
   })
 
   it('adds content-type header on POST and returns response', async () => {
@@ -37,12 +40,15 @@ describe('apiClient', () => {
     )
 
     expect(response).toEqual({ ok: true })
-    const [, request] = fetchSpy.mock.calls[0]
+    const firstCall = fetchSpy.mock.calls[0]
+    expect(firstCall).toBeDefined()
+    const request = firstCall?.[1] as RequestInit | undefined
+    expect(request).toBeDefined()
     expect(request).toMatchObject({
       method: 'POST',
       body: JSON.stringify({ a: 1 }),
     })
-    expect((request as RequestInit).headers).toMatchObject({
+    expect(request?.headers).toMatchObject({
       'Content-Type': 'application/json',
     })
   })

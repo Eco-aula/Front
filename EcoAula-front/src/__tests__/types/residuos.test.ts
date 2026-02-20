@@ -11,7 +11,6 @@ describe('residuos runtime constants', () => {
         'organico',
         'carton',
         'metal',
-        'quimico',
       ]),
     )
   })

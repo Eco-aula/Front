@@ -3,7 +3,7 @@ import { mergeConfig, defineConfig, configDefaults } from 'vitest/config'
 import viteConfig from './vite.config'
 
 export default mergeConfig(
-  viteConfig,
+  viteConfig as any,
   defineConfig({
     test: {
       environment: 'jsdom',
@@ -14,7 +14,6 @@ export default mergeConfig(
         provider: 'v8',
         reporter: ['text', 'html', 'json-summary'],
         reportsDirectory: './coverage',
-        all: true,
         include: ['src/**/*.{ts,vue}'],
         exclude: ['src/**/__tests__/**'],
         thresholds: {
