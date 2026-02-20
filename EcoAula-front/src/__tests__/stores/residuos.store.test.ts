@@ -32,7 +32,7 @@ describe('useResiduosStore', () => {
 
   it('handles api http errors', async () => {
     server.use(
-      http.get('/api/residuos', () => {
+      http.get('*/api/v1/containers/summary', () => {
         return HttpResponse.json(
           { message: 'Error interno del servidor' },
           { status: 500 },
@@ -49,7 +49,7 @@ describe('useResiduosStore', () => {
 
   it('falls back to local seed data on network errors', async () => {
     server.use(
-      http.get('/api/residuos', () => {
+      http.get('*/api/v1/containers/summary', () => {
         return HttpResponse.error()
       }),
     )
@@ -66,7 +66,7 @@ describe('useResiduosStore', () => {
     await store.fetchResiduos()
 
     server.use(
-      http.get('/api/residuos', () => {
+      http.get('*/api/v1/containers/summary', () => {
         return HttpResponse.json({ message: 'Fallo en recarga' }, { status: 500 })
       }),
     )
@@ -82,7 +82,7 @@ describe('useResiduosStore', () => {
     let requestCount = 0
 
     server.use(
-      http.get('/api/residuos', async () => {
+      http.get('*/api/v1/containers/summary', async () => {
         requestCount += 1
         await delay(120)
         return HttpResponse.json([], { status: 200 })
@@ -120,7 +120,7 @@ describe('useResiduosStore', () => {
 
   it('surfaces api errors when create fails with backend status', async () => {
     server.use(
-      http.post('/api/residuos', () => {
+      http.post('*/api/v1/wastes', () => {
         return HttpResponse.json({ message: 'No autorizado' }, { status: 500 })
       }),
     )
@@ -143,7 +143,7 @@ describe('useResiduosStore', () => {
 
   it('creates local fallback item on network errors', async () => {
     server.use(
-      http.post('/api/residuos', () => {
+      http.post('*/api/v1/wastes', () => {
         return HttpResponse.error()
       }),
     )

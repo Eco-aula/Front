@@ -44,25 +44,25 @@ describe('residuos utils', () => {
       }),
     ).toEqual({
       name: 'Maria',
-      wasteType: 'plastico',
-      quantityKg: 9.2,
-      createdAt: '2023-10-25T12:00:00.000Z',
-      observations: 'Limpio',
+      description: 'Limpio',
+      heavy: 9.2,
+      category: 'PLASTIC',
     })
 
     expect(
       toResiduoItem({
         id: 100,
-        wasteType: 'quimico',
-        quantityKg: 3,
-        createdAt: '2023-10-22T10:00:00.000Z',
+        name: 'Residuo de prueba',
+        description: 'Desc',
+        heavy: 3,
+        category: 'METAL',
+        date: '2023-10-22T10:00:00.000Z',
         status: 'pendiente',
-        createdBy: 'Ana',
       }),
     ).toMatchObject({
       id: 100,
-      tipo: 'Residuos Quimicos',
-      icon: 'science',
+      tipo: 'Metal',
+      icon: 'hardware',
       estado: 'pendiente',
     })
   })

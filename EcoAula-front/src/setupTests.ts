@@ -2,7 +2,12 @@ import '@testing-library/jest-dom/vitest'
 import { cleanup } from '@testing-library/vue'
 import { afterAll, afterEach, beforeAll } from 'vitest'
 
-import { resetResiduosDb } from '@/mocks/handlers'
+import {
+  resetCategoryVolumeDb,
+  resetContainersSummaryDb,
+  resetUsersDb,
+  resetWastesDb,
+} from '@/mocks/handlers'
 import { server } from '@/mocks/server'
 
 beforeAll(() => {
@@ -12,7 +17,10 @@ beforeAll(() => {
 afterEach(() => {
   cleanup()
   server.resetHandlers()
-  resetResiduosDb()
+  resetWastesDb()
+  resetUsersDb()
+  resetContainersSummaryDb()
+  resetCategoryVolumeDb()
 })
 
 afterAll(() => {

@@ -41,6 +41,6 @@ describe('MVP integration flow', () => {
     ).toBeInTheDocument()
 
     await user.click(screen.getByRole('link', { name: 'Listado' }))
-    expect(await screen.findByText('Metal')).toBeInTheDocument()
+    expect(await screen.findByRole('cell', { name: 'Metal' })).toBeInTheDocument()
   })
 })

@@ -15,9 +15,11 @@ export function useListado() {
   const opcionesTipo = [
     { value: 'todos', label: 'Todos los tipos' },
     { value: 'papel', label: 'Papel y Carton' },
+    { value: 'carton', label: 'Carton' },
     { value: 'plastico', label: 'Plasticos (PET)' },
-    { value: 'quimico', label: 'Residuos Quimicos' },
     { value: 'organico', label: 'Organicos' },
+    { value: 'vidrio', label: 'Vidrio' },
+    { value: 'metal', label: 'Metal' },
   ]
 
   const opcionesRango = [

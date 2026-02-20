@@ -1,180 +1,77 @@
 # Frontend Testing
 
-🧪 DOCUMENTACIÓN TÉCNICA – PRUEBAS FRONTEND
+## Objetivo
 
-🚀 Estado Final
+Mantener pruebas estables y utiles para detectar regresiones en:
 
-🧭 1️⃣ Rama de trabajo
+- UI (componentes y vistas)
+- logica de composables y stores
+- integracion HTTP con el backend (`/api/v1`)
+- flujos completos de usuario
 
-Rama utilizada:
+## Stack de pruebas
 
-test/frontend-max-coverage
+- `Vitest`: unit tests e integracion
+- `@testing-library/vue`: pruebas orientadas a comportamiento
+- `MSW`: mocking de endpoints HTTP
+- `Playwright`: pruebas E2E
+- `@vitest/coverage-v8`: cobertura
 
-🎯 Objetivo
+## Estructura
 
-Maximizar cobertura y estabilidad del frontend sin afectar el desarrollo funcional del equipo.
+```text
+src/__tests__/           # unit + integration + smoke tests
+src/mocks/               # handlers MSW para endpoints backend
+e2e/                     # escenarios Playwright
+coverage/                # reporte local de cobertura
+docs/badges/coverage.json
+```
 
-Se trabajó en rama aislada para:
+## Comandos
 
-Incrementar cobertura global.
-
-Asegurar estabilidad de componentes críticos.
-
-Validar flujos reales.
-
-Integrar pruebas E2E.
-
-Garantizar cumplimiento del requisito ≥ 75%.
-
-Una vez verificado que todo ejecutaba correctamente, los cambios fueron integrados en dev.
-
-🛠 2️⃣ Stack de testing utilizado
-
-🔬 Unit & Integration
-
-Vitest → Unit testing
-
-Testing Library → Testing basado en comportamiento real
-
-Mocking controlado de API
-
-Coverage con provider V8
-
-🌐 End-to-End
-
-Playwright / Cypress
-
-Ejecución sobre entorno real
-
-🧠 3️⃣ Estrategia de pruebas
-
-🧩 Unit Tests
-
-Cobertura aplicada sobre:
-
-Componentes individuales
-
-Stores (estado y acciones)
-
-Utilidades
-
-Router
-
-API layer
-
-Se validan:
-
-✔ Renderizado correcto
-
-✔ Props
-
-✔ Eventos
-
-✔ Estados condicionales
-
-✔ Manejo de errores
-
-✔ Validaciones de formularios
-
-✔ Ramas condicionales (if / else)
-
-🔁 Tests de integración
-
-Pruebas que validan interacción real entre módulos:
-
-Navegación entre rutas
-
-Interacción componente + store
-
-Flujo completo de formularios
-
-Estados asíncronos
-
-Renderizado condicionado por datos
-
-🌐 Tests End-to-End (E2E)
-
-Flujos críticos cubiertos:
-
-Login
-
-Registro
-
-Creación de residuo
-
-Visualización en listado
-
-Navegación principal
-
-Se ejecutan contra entorno real (sin mocks internos).
-
-📊 4️⃣ Medición de cobertura
-
-Comando utilizado:
-
-npm run test:coverage
-
-## 📸 Reporte visual de cobertura
-
-![Reporte de cobertura Frontend](assets/frontend-coverage.png)
-
-📈 Resultados finales
-
-Statements: 96.2%
-
-Branches: 94.66%
-
-Functions: 92.21%
-
-Lines: 96.11%
-
-✔ Supera ampliamente el requisito mínimo (75%)
-
-✔ Cobertura estable y reproducible
-
-🧱 5️⃣ Buenas prácticas aplicadas
-
-Separación clara de responsabilidades.
-
-Mocking controlado de dependencias.
-
-Tests independientes y deterministas.
-
-No dependencia de backend real para unit tests.
-
-E2E aislado.
-
-Código limpio y mantenible.
-
-Cobertura real (no artificial).
-
-🛡 6️⃣ Garantía de estabilidad
-
-Se validó ejecución en entorno limpio:
+Ejecutar pruebas unitarias/integracion:
 
 ```bash
-npm ci
 npm run test
+```
+
+Ejecutar cobertura:
+
+```bash
 npm run test:coverage
+```
+
+Generar badge JSON:
+
+```bash
+npm run coverage:badge
+```
+
+Ejecutar E2E:
+
+```bash
 npm run e2e
 ```
 
-→ Ejecutan sin errores.
-→ Cobertura consistente.
-→ Flujos críticos funcionales.
+## Cobertura actual
 
-✅ Conclusión
+Resultado ejecutado localmente el **20 de febrero de 2026**:
 
-El frontend cuenta con:
+- Statements: `93.41%`
+- Branches: `88.84%`
+- Functions: `88.37%`
+- Lines: `93.07%`
 
-Pruebas unitarias
+Badge actualizado: `docs/badges/coverage.json`
 
-Pruebas de integración
+## Escenarios minimos validados
 
-Pruebas end-to-end
+- carga de dashboard (summary + volume by category)
+- alta de usuario
+- alta de residuo
+- listado de residuos
+- visualizacion de errores backend (`400/404`) usando campo `message`
 
-Cobertura superior al 90%
+## Reporte visual
 
-Ejecución reproducible
-
-Esto garantiza estabilidad ante cambios futuros y minimiza riesgo de regresiones.
+![Reporte de cobertura Frontend](assets/frontend-coverage.png)

@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import { canAccessProtectedRoutes } from './authGuard'
 
@@ -42,8 +42,14 @@ export const routes = [
   },
 ]
 
+const routerMode = (import.meta.env.VITE_ROUTER_MODE ?? 'history').toLowerCase()
+const history =
+  routerMode === 'hash'
+    ? createWebHashHistory(import.meta.env.BASE_URL)
+    : createWebHistory(import.meta.env.BASE_URL)
+
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history,
   routes,
 })
 

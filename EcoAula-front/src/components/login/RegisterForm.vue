@@ -62,7 +62,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { getCurrentInstance, reactive, ref } from 'vue'
 
 import { register } from '@/api/authApi'
 import { ApiError } from '@/api/apiClient'
@@ -84,6 +84,13 @@ const fieldErrors = reactive<{ name?: string; email?: string; password?: string 
 const submitError = ref<string | null>(null)
 const successMessage = ref<string | null>(null)
 const isSubmitting = ref(false)
+
+const router = getCurrentInstance()?.appContext.config.globalProperties
+  .$router as
+  | {
+      push: (to: string) => Promise<void> | void
+    }
+  | undefined
 
 function clearMessages() {
   fieldErrors.name = undefined
@@ -124,13 +131,15 @@ async function handleSubmit() {
   isSubmitting.value = true
 
   try {
-    await register({
+    const response = await register({
       name: formData.name.trim(),
       email: formData.email.trim(),
       password: formData.password,
     })
 
     successMessage.value = 'Registro exitoso.'
+    localStorage.setItem('ecoaula_current_user', JSON.stringify(response.user))
+    await router?.push('/dashboard')
   } catch (caughtError) {
     if (caughtError instanceof ApiError) {
       submitError.value = caughtError.message

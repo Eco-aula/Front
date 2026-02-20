@@ -3,116 +3,128 @@
 [![Frontend CI](https://github.com/Eco-aula/Front/actions/workflows/frontend-ci.yml/badge.svg)](https://github.com/Eco-aula/Front/actions/workflows/frontend-ci.yml)
 [![Coverage](https://img.shields.io/endpoint?url=https%3A%2F%2Feco-aula.github.io%2FFront%2Fbadges%2Fcoverage.json)](https://eco-aula.github.io/Front/badges/coverage.json)
 
-Aplicación frontend para la gestión institucional de residuos en EcoAula. Incluye autenticación, panel de control, registro de residuos, listado operativo y gestión de alertas.
+Frontend de EcoAula para gestion de residuos. Este proyecto esta integrado con el backend actual usando `VITE_API_URL` y prefijo `/api/v1`.
 
-## Tecnologías
+## Stack
 
 - Vue 3 + Vite + TypeScript
-- Pinia (estado global)
-- Vue Router (ruteo y guards)
-- Vitest + Testing Library + MSW (unitarias/integración)
-- Playwright (E2E)
+- Pinia
+- Vue Router
+- Vitest + Testing Library + MSW
+- Playwright
 
-## Funcionalidades principales
+## Integracion Backend
 
-- Login y registro de usuarios.
-- Dashboard general con KPIs, distribución y últimos movimientos.
-- Registro de residuos con formulario validado.
-- Listado de residuos con filtros, paginación y estados `loading/empty/error`.
-- Módulo de alertas con filtrado por prioridad y gestión operativa.
-- Protección de rutas privadas mediante guard de autenticación.
+- Variable de entorno: `VITE_API_URL`
+- URL local esperada: `http://localhost:8080`
+- API base final usada por el cliente: `/api/v1`
+- Manejo de error: se muestra `message` del backend cuando existe
 
-## Rutas de la aplicación
+Endpoints usados por el frontend:
 
-- `/` → Login/Registro
-- `/dashboard` → Vista general
-- `/registrar` → Alta de residuo
-- `/listado` → Listado y métricas operativas
-- `/alertas` → Gestión de alertas
-- `/home` → Redirección a `/dashboard`
-- `*` → Redirección a `/`
-
-## Estructura del proyecto
-
-```text
-src/
-  api/           # Cliente HTTP y servicios
-  components/    # UI por dominios (home, listado, registrar, login, alertas)
-  composables/   # Lógica de presentación reutilizable
-  stores/        # Estado global (Pinia)
-  router/        # Rutas y guard de acceso
-  views/         # Vistas principales por ruta
-  utils/         # Utilidades y validaciones
-  mocks/         # Handlers MSW (tests)
-  __tests__/     # Unit, integración y smoke tests
-docs/
-  badges/        # JSON de badge de cobertura para Shields
-e2e/             # Pruebas Playwright
-```
+- `POST /api/v1/users`
+- `GET /api/v1/users/{id}`
+- `PUT /api/v1/users/{id}`
+- `DELETE /api/v1/users/{id}`
+- `POST /api/v1/wastes`
+- `PUT /api/v1/wastes/{id}`
+- `DELETE /api/v1/wastes/{id}`
+- `GET /api/v1/containers/summary`
+- `GET /api/v1/containers/volume-by-category`
+- `GET /api/v1/containers/{id}/status`
+- `PUT /api/v1/containers/{id}/fill`
+- `PATCH /api/v1/containers/{id}/recycling`
+- `PATCH /api/v1/containers/{id}/empty`
 
 ## Requisitos
 
 - Node.js `^20.19.0 || >=22.12.0`
 - npm
+- Backend levantado en `http://localhost:8080`
 
-## Configuración de entorno
+## Variables de entorno
 
-La API base se toma de `VITE_API_BASE_URL`.
-
-Si no se define, el frontend usa `/api` por defecto.
-
-Ejemplo de `.env`:
+Puedes usar `EcoAula-front/.env.example` como base y crear `EcoAula-front/.env.local`:
 
 ```bash
-VITE_API_BASE_URL=https://tu-api.ejemplo.com/api
+VITE_API_URL=http://localhost:8080
 ```
 
-## Instalación y ejecución
+Si no defines la variable, el frontend usa `http://localhost:8080` por defecto.
+
+Variables opcionales para despliegue estatico:
+
+- `VITE_PUBLIC_BASE_PATH`: base publica (ejemplo Pages: `/Front/`)
+- `VITE_ROUTER_MODE`: `history` (default) o `hash`
+
+## Instalacion y ejecucion
 
 ```bash
 npm ci
 npm run dev
 ```
 
-Build de producción:
+Aplicacion en local: `http://localhost:5173`.
+
+## Scripts
+
+- `npm run dev`: desarrollo
+- `npm run test`: pruebas unitarias/integracion
+- `npm run test:coverage`: cobertura
+- `npm run coverage:badge`: genera `docs/badges/coverage.json`
+- `npm run e2e`: pruebas end-to-end
+- `npm run build`: type-check + build de produccion
+- `npm run preview`: previsualizar build
+
+## Verificacion local recomendada
 
 ```bash
+npm run test
+npm run test:coverage
 npm run build
 ```
 
-Previsualización del build:
+Nota: no hay script `lint` definido actualmente en `package.json`.
 
-```bash
-npm run preview
-```
+## Despliegue
 
-## Scripts disponibles
+### GitHub Pages
 
-- `npm run dev`: servidor de desarrollo.
-- `npm run build`: type-check + build.
-- `npm run preview`: servir build local.
-- `npm run test`: pruebas unitarias + integración.
-- `npm run test:watch`: modo watch.
-- `npm run test:coverage`: cobertura (texto + HTML + summary JSON).
-- `npm run coverage:badge`: genera `docs/badges/coverage.json` desde cobertura real.
-- `npm run e2e`: pruebas end-to-end con Playwright.
+El workflow `pages.yml` publica la app a Pages (branches `dev` y `main`):
 
-## Testing y cobertura
+- build con `VITE_PUBLIC_BASE_PATH=/Front/`
+- router en modo `hash` (`VITE_ROUTER_MODE=hash`) para evitar 404 en refresh
+- salida publicada: `dist/`
+- badge de cobertura expuesto en `/badges/coverage.json`
 
-- Reporte HTML: `coverage/index.html`
-- Documentación técnica de testing: `docs/frontend-testing.md`
+URL esperada:
 
-### Regenerar cobertura y badge en local
+- `https://eco-aula.github.io/Front/`
+- rutas internas como `https://eco-aula.github.io/Front/#/dashboard`
 
-```bash
-npm run test:coverage
-npm run coverage:badge
-```
+Importante:
 
-Archivo local generado: `docs/badges/coverage.json`
+- define la variable de repositorio `VITE_API_URL` en GitHub (Settings > Secrets and variables > Actions > Variables).
 
-## CI/CD y badges automáticos
+### Vercel
 
-- `frontend-ci.yml`: ejecuta tests, cobertura y E2E en cada `push`/`pull_request` a `dev` y `main`.
-- `pages.yml`: en cada `push` a `dev` regenera `docs/badges/coverage.json` y publica `docs/` en GitHub Pages.
-- Endpoint público del badge de cobertura: `https://eco-aula.github.io/Front/badges/coverage.json`
+Este repo incluye `vercel.json` en la raiz para desplegar desde monorepo:
+
+- instala/build desde `EcoAula-front`
+- publica `EcoAula-front/dist`
+- incluye rewrite SPA (`/(.*)` -> `/index.html`) para que `history` funcione en rutas directas
+
+Importante:
+
+- define `VITE_API_URL` en el proyecto de Vercel (Environment Variables).
+
+## Flujos minimos cubiertos
+
+- Cargar dashboard (`summary` y `volume-by-category`)
+- Crear usuario
+- Crear residuo
+- Mostrar errores backend `400/404` usando `message`
+
+## Documentacion
+
+- Guia de testing: [`docs/frontend-testing.md`](docs/frontend-testing.md)

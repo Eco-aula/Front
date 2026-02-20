@@ -31,9 +31,9 @@ describe('ListadoFiltros', () => {
     })
 
     const selects = wrapper.findAll('select')
-    await selects[0].setValue('plastico')
-    await selects[1].setValue('7dias')
-    await selects[2].setValue('pendiente')
+    await selects[0]!.setValue('plastico')
+    await selects[1]!.setValue('7dias')
+    await selects[2]!.setValue('pendiente')
     await wrapper.get('button.filter-btn').trigger('click')
 
     expect(wrapper.emitted('update:filtroPorTipo')?.[0]).toEqual(['plastico'])
